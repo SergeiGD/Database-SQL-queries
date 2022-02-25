@@ -1,5 +1,5 @@
 # Database-SQL-queries
-В данном репозитории находится схема реляционной базы данных для сервисного центра по починке техники, а также различные запросы на выборку данных. 
+В данном репозитории находится схема реляционной базы данных для сервисного центра по починке техники, а также различные запросы на выборку данных.
 
 <br>
 
@@ -20,14 +20,14 @@
 <hr>
 
 ## Схема базы данных
-![](./images/db_scheme.png "Схема базы данных")
+![](./images/db_scheme_img.png "Схема базы данных")
 
 <hr>
 
 ## Запросы к базе данных
 ### Самая популярная услуга в сентябре:
 ```SQL
-SELECT Services.id, Services.Name, Categories.Name AS Cat, SUM(OrderServices.Count) AS Count 
+SELECT Services.id, Services.Name, Categories.Name AS Cat, SUM(OrderServices.Count) AS Count
 FROM Services
 INNER JOIN OrderServices ON OrderServices.id_Service = Services.id
 INNER JOIN Orders ON Orders.id = OrderServices.id_Order AND Orders.DateStart >= '2021/08/01 00:00:00' AND Orders.DateFinished < '2021/09/01 00:00:00'
@@ -83,11 +83,11 @@ ON Orders.id = OrderServices.id_Order AND Orders.DateStart >= '2021/09/01 00:00:
 
 #### С помощью LEFT JOIN
 ```SQL
-SELECT Services.id, Services.Name, Services.id_Category 
+SELECT Services.id, Services.Name, Services.id_Category
 FROM Services
 LEFT JOIN
 (
-    SELECT Services.id, Services.Name, Services.id_Category 
+    SELECT Services.id, Services.Name, Services.id_Category
     FROM Services
     INNER JOIN OrderServices ON OrderServices.id_Service = Services.id
     INNER JOIN Orders ON Orders.id = OrderServices.id_Order AND Orders.DateStart >= '2021/09/01 00:00:00' AND Orders.DateFinished < '2021/10/01 00:00:00'
@@ -158,12 +158,12 @@ INNER JOIN Services
 ON Services.id = OrderServices.id_Service AND Services.id = @servID
 ```
 
-#### С помощью LEFT JOIN 
+#### С помощью LEFT JOIN
 ```SQL
-SELECT Orders.id, Orders.ClientComment, Orders.DateStart 
+SELECT Orders.id, Orders.ClientComment, Orders.DateStart
 FROM Orders
 LEFT JOIN(
-    SELECT Orders.id, Orders.ClientComment, Orders.DateStart 
+    SELECT Orders.id, Orders.ClientComment, Orders.DateStart
     FROM Orders
     INNER JOIN OrderServices ON OrderServices.id_Order = Orders.id
     INNER JOIN Services ON Services.id = OrderServices.id_Service AND Services.id = @servID
